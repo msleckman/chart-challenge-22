@@ -10,7 +10,7 @@ tar_option_set(packages = c("tidyverse", "lubridate",
                             'nhdplusTools','raster',
                             'FedData', 'RColorBrewer','lattice',
                             'rasterVis', 'magick', 'stringr',
-                            'FedData', 'cowplot', 'showtext')
+                            'FedData', 'cowplot', 'showtext','grid')
                )
 
 source("1_fetch.R")

@@ -27,10 +27,10 @@ raster_ploting_w_ggplot <- function(raster_in, reach_shp,
     scale_fill_manual(
       values = legend_df$color,
       labels = legend_df$Reclassify_description,
-      "Land cover"
+      "Land Cover Class"
     ) +
     coord_sf()
-  
+
   # Area through time
   nlcd_area <- counts %>% 
     # find % of total area in each category over time
@@ -38,16 +38,17 @@ raster_ploting_w_ggplot <- function(raster_in, reach_shp,
                 group_by(rast)%>%
                 summarize(total_cells = sum(count))) %>%
     mutate(year = as.numeric(stringr::str_sub(rast,-4,-1)),
-           percent = count/total_cells) %>%
+           percent = count/total_cells,
+           ) %>%
     filter(value != 0, year == chart_year) %>% 
-    ggplot(aes(year, 
+    ggplot(aes(as.character(year), 
                percent, 
                group = value, 
                # color = factor(value), 
                fill = factor(value))
            )+
     ## bar plot vis
-    geom_bar(stat = 'identity', width = 4)+
+    geom_bar(stat = 'identity', width = 2)+
     scale_fill_manual(
       values = legend_df$color,
       labels = legend_df$Reclassify_description,
@@ -56,8 +57,9 @@ raster_ploting_w_ggplot <- function(raster_in, reach_shp,
     theme_classic()+
     scale_y_continuous(
       labels = scales::label_percent(accuracy = 1),
-      expand = c(0,0)
-    )
+      expand = c(0,0))+
+    scale_x_discrete('Year',
+          expand = c(0,0))
     
   ##compose final plot
   file_name <- stringr::str_sub(unique(raster_in$rast),-4,-1)
@@ -78,14 +80,25 @@ raster_ploting_w_ggplot <- function(raster_in, reach_shp,
 
   plot_margin <- 0.025
   
+  canvas <- rectGrob(
+    x = 0, y = 0, 
+    width = 16, height = 9,
+    gp = gpar(fill = "white", alpha = 1, col = 'white')
+  )
+  
   # combine plot elements
-  ggdraw(ylim = c(0,1), xlim = c(0,1)) +
+  ggdraw(ylim = c(0,1), xlim = c(0,1))+
+    # a white background
+    draw_grob(canvas,
+              x = 0, y = 1,
+              height = 9, width = 16,
+              hjust = 0, vjust = 1)+
     draw_plot(nlcd_map + theme(legend.position = "none"),
               y = 0.1, x = 0.3-plot_margin,
               height = 0.8, width = 0.35) +
     draw_plot(nlcd_area + theme(legend.position = "none"),
               y = 0.1, x = 0.65-plot_margin,
-              height = 0.8, width = 0.35) +
+              height = 0.75, width = 0.25) +
     draw_plot(p_legend,
               y = 0.8, x = 0, 
               width = 0.3, height = 0.5,
@@ -94,6 +107,14 @@ raster_ploting_w_ggplot <- function(raster_in, reach_shp,
     draw_label(title, 
                x = plot_margin, y = 1-plot_margin, 
                fontface = "bold", 
+               size = 40, 
+               hjust = 0, 
+               vjust = 1,
+               fontfamily = font_fam,
+               lineheight = 1.1) +
+    draw_label(chart_year,
+               x = plot_margin,
+               y = 1-plot_margin-0.05,
                size = 40, 
                hjust = 0, 
                vjust = 1,

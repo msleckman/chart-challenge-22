@@ -1,5 +1,5 @@
 NLCD_value,NLCD_description,Reclassify_match,Reclassify_description,color_name,color_hex
-11,"Open Water - areas of open water, generally with less than 25% cover of vegetation or soil.",1,Water,DarkBlue,#0d316b
+11,"Open Water - areas of open water, generally with less than 25% cover of vegetation or soil.",1,Water,DarkBlue,#FFFFFF
 12,"Perennial Ice/Snow - areas characterized by a perennial cover of ice and/or snow, generally greater than 25% of total cover.",NA,NA,NA,NA
 21,"Developed, Open Space - areas with a mixture of some constructed materials, but mostly vegetation in the form of lawn grasses. Impervious surfaces account for less than 20% of total cover. These areas most commonly include large-lot single-family housing units, parks, golf courses, and vegetation planted in developed settings for recreation, erosion control, or aesthetic purposes.",3,Developed Areas - Low Intensity,LightRed,#de6868
 22,"Developed, Low Intensity - areas with a mixture of constructed materials and vegetation. Impervious surfaces account for 20% to 49% percent of total cover. These areas most commonly include single-family housing units.",3,Developed Areas - Low Intensity,LightRed,#de6868

@@ -8,7 +8,7 @@ FORESCE_value,FORESCE_description,Reclassify_match,Reclassify_description,color_
 6,Fruits / Vegetables,2,Agriculture,Yellow,#dae670
 7,Tobacco,2,Agriculture,Yellow,#dae670
 8,Other Crops,2,Agriculture,Yellow,#dae670
-9,Open Water,1,Water,DarkBlue,#0d316b
+9,Open Water,1,Water,DarkBlue,#FFFFFF
 10,Developed Low Intensity,3,Developed Areas - Low Intensity,LightRed,#de6868
 11,Developed Med-High Intensity,4,Developed Areas - Med-High Intensity,DarkRed,#6e1010
 12,Barren,5,Barren,Beige,#e3e6c3

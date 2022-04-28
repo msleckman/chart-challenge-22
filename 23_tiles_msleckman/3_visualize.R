@@ -75,10 +75,10 @@ p3_targets_list<- list(
     format = 'file'
   ),
   
-  ## animate barplot maps - need to switch to tar_map 
+  ## animate map+barplot maps - need to switch to tar_map 
   tar_target(
     p3_animate_ggplots_frames_gif,
-    animate_frames_gif(frames = list.files('3_visualize/out/ggplots', full.names = TRUE, pattern = '.png$'),
+    animate_frames_gif(frames = p3_save_map_frames_ggplot,
                        out_file = paste0('3_visualize/out/gifs/ggplot_gif_',today(),'.gif'),
                        reduce = FALSE, frame_delay_cs = 100, frame_rate = 60),
     format = 'file'
