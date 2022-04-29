@@ -53,7 +53,7 @@ p3_targets_list<- list(
       reach_shp = p1_streams_polylines_drb,
       counts = p2_raster_cell_count,
       legend_df = legend_df,
-      title = paste("NLCD in the DRB: ", p3_gif_years),
+      title = paste("Land Use and Land Cover Change in the DRB: ", p3_gif_years),
       years = p3_all_years, 
       chart_year = p3_gif_years,
       font_fam = "Dongle",
