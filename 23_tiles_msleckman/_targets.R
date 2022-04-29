@@ -10,7 +10,7 @@ tar_option_set(packages = c("tidyverse", "lubridate",
                             'nhdplusTools','raster',
                             'FedData', 'RColorBrewer','lattice',
                             'rasterVis', 'magick', 'stringr',
-                            'FedData', 'cowplot', 'showtext')
+                            'FedData', 'cowplot', 'showtext', 'spData')
                )
 
 source("1_fetch.R")
@@ -51,6 +51,9 @@ legend_df <- reclassify_df_FOR %>%
   dplyr::select(-c(FORESCE_value, FORESCE_description, color_name)) %>%
   distinct()
 
+data("us_states", package = "spData")
+## selecting by arbitrarily selected bbox
+drb_extent_map <- sf::st_crop(us_states, c(xmin=-80, xmax=-65, ymin=47, ymax=33))
 
 # Returning the complete list of targets
 c(p1_targets_list, p2_targets_list, p3_targets_list)

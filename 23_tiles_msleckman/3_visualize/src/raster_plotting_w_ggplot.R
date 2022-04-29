@@ -2,9 +2,14 @@ raster_ploting_w_ggplot <- function(raster_in, reach_shp,
                                     counts, legend_df, title, 
                                     years, chart_year, 
                                     font_fam = "Source Sans Pro",
-                                    out_folder = "3_visualize/out"){
+                                    out_folder = "3_visualize/out", 
+                                    extent_map, 
+                                    drb_boundary){
   
   font_legend <- 'Source Sans Pro'
+  
+  print(names(raster_in$rast)) 
+  print(chart_year)
   
   nlcd_map <- ggplot()+
     geom_raster(data = raster_in, 
@@ -31,7 +36,6 @@ raster_ploting_w_ggplot <- function(raster_in, reach_shp,
       "Land cover"
     ) +
     coord_sf()
-
   
   # Area through time
   nlcd_area <- counts %>% 
@@ -65,11 +69,19 @@ raster_ploting_w_ggplot <- function(raster_in, reach_shp,
       breaks = as.numeric(years),
       limits = c(min(as.numeric(years)), max(as.numeric(years)))
     )
+  
+  ## Adding extent map
+  drb_extent_map <- st_transform(extent_map, crs = crs(drb_boundary))
+  
+  extent_map <- ggplot() + 
+    geom_sf(data = drb_extent_map, fill = "white", color = alpha('grey', 0.5)) + 
+    geom_sf(data = drb_boundary, fill = NA, color = "red") +
+    theme_void()
+  
     
   ##compose final plot
   file_name <- stringr::str_sub(unique(raster_in$rast),-4,-1)
 
-  
   # legend
   p_legend <- get_legend(nlcd_map)
   
@@ -91,21 +103,25 @@ raster_ploting_w_ggplot <- function(raster_in, reach_shp,
     gp = grid::gpar(fill = "white", alpha = 1, col = 'white')
   )
   
-  # combine plot elements
+  # Combine plot elements
   ggdraw(ylim = c(0,1), xlim = c(0,1)) +
     # a white background
     draw_grob(canvas,
               x = 0, y = 1,
               height = 9, width = 16,
               hjust = 0, vjust = 1) +
+  draw_plot(extent_map,
+            y = 0.1, x = 0,
+            height = 0.4, width = 0.5) +
+    # draw area chart
+    draw_plot(nlcd_area + theme(legend.position = "none"),
+              y = 0.1, x = 0.65-plot_margin,
+              height = 0.8, width = 0.45) +
     # draw map
     draw_plot(nlcd_map + theme(legend.position = "none"),
               y = 0.1, x = 0.3-plot_margin,
               height = 0.8, width = 0.35) +
-    # draw area chart
-    draw_plot(nlcd_area + theme(legend.position = "none"),
-              y = 0.1, x = 0.65-plot_margin,
-              height = 0.8, width = 0.35) +
+
     # draw legend
     draw_plot(p_legend,
               y = 0.8, x = 0, 
