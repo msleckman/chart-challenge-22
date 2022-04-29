@@ -1,5 +1,6 @@
-raster_ploting_w_ggplot <- function(raster_in, reach_shp,
-                                    counts, legend_df, title, chart_year, 
+raster_ploting_w_ggplot <- function(raster_in,
+                                    reach_shp, counts,
+                                    legend_df, title, chart_year, 
                                     font_fam = "Source Sans Pro",
                                     out_folder = "3_visualize/out"){
   
@@ -25,7 +26,7 @@ raster_ploting_w_ggplot <- function(raster_in, reach_shp,
       guide = "none"
     ) +
     scale_fill_manual(
-      values = legend_df$color,
+      values = legend_df$color_hex,
       labels = legend_df$Reclassify_description,
       "Land Cover Class"
     ) +
@@ -57,13 +58,10 @@ raster_ploting_w_ggplot <- function(raster_in, reach_shp,
     theme_classic()+
     scale_y_continuous(
       labels = scales::label_percent(accuracy = 1),
-      expand = c(0,0))+
-    scale_x_discrete('Year',
-          expand = c(0,0))
+      expand = c(0,0))
     
   ##compose final plot
   file_name <- stringr::str_sub(unique(raster_in$rast),-4,-1)
-
   
   # legend
   p_legend <- get_legend(nlcd_map)
