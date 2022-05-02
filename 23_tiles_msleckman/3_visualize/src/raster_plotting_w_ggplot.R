@@ -71,13 +71,21 @@ raster_ploting_w_ggplot <- function(raster_in, reach_shp,
     )
   
   ## Adding extent map
-  drb_extent_map <- st_transform(extent_map, crs = crs(drb_boundary))
+  drb_extent_map <- st_transform(extent_map, crs = 4326)
   
   extent_map <- ggplot() + 
-    geom_sf(data = drb_extent_map, fill = "white", color = alpha('grey', 0.5)) + 
+    geom_sf(data = drb_extent_map, fill = "white", color = alpha('grey', 0.5)) + ß
     geom_sf(data = drb_boundary, fill = NA, color = "red") +
-    theme_void()
-  
+    theme_void()+
+    ggspatial::annotation_north_arrow(
+      location = "tl", which_north = "true",
+      height = unit(0.75, 'cm'), width = unit(0.75, 'cm'),
+      pad_x = unit(1, "cm"), pad_y = unit(1, "cm"),
+      style = ggspatial::north_arrow_orienteering(
+        fill = c("white", "white"),
+        line_col = "grey20",
+        text_family = "ArcherPro Book"
+      ))
     
   ##compose final plot
   file_name <- stringr::str_sub(unique(raster_in$rast),-4,-1)
